@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>선택자</title>
+  <style>
+    * {
+        border: 1px solid red;
+        padding: 10px;
+    }
+    /* 테두리가 몇개 생길까? */
+
+    div * {
+        border: 3px solid red;
+    }
+    /* div의 자손들에게 설정 */
+
+    h1 {
+        text-decoration: underline;
+    }
+
+    p {
+        background-color: skyblue;
+    }
+    .hello2 
+    #hello {
+        color:blue
+    }
+    /* 보통 개별 css를 적용할땐 이처럼 .을 사용해 클래스로 지정해서 사용
+    클래스 명은 한글도 가능! */
+
+
+  </style>
+</head>
+
+<body>
+    <div>
+        <h1>Hello</h1>
+        <h2>Hello</h2>
+        <p class="hello2">Hello</p>
+        <p id="hello">Hello</p>
+        <p>Hello</p>
+        <button type="button">Hello</button>
+    </div>
+      
+</body>
+
+</html>
