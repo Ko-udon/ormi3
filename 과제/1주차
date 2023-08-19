@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        .title{
+            text-align: center;
+        }
+
+        /* 아이디와 비밀번호를 입력하고 로그인하세요 부분 */
+        div>p{
+            color: gray;
+        }
+
+        /* 로그인 페이지 전체 적용 */
+        .login {
+            width: 500px;
+            padding: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        label[for="id"], label[for="password"] {
+            display: inline-block;
+            font-weight: bold;
+            width:80px;
+        }
+
+        input[type="text"],input[type="password"]{
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            padding:0 20px 0 20px;
+            width: 300px;
+            margin: 10px 0 10px 10px;
+            height: 30px;
+        }
+
+        label[for="save"]{
+            font-weight: bold;
+        }
+        
+        button {
+            font-weight: bold;
+            background-color: #4a68d9;
+            width: 450px;
+            height: 50px;
+            color: white;
+            margin:15px 0 0 0;
+            border-radius: 8px;
+            border: 1px solid white;
+            font-size: 22px;
+        } 
+    </style>
+</head>
+    <body>
+        <div class="title">
+            <h1>로그인</h1>
+            <p>아이디와 비밀번호를 입력하고 로그인하세요</p>
+        </div>
+        <div class="login">
+            <div>
+                <label for="id">아이디</label>
+                <input id="id" type="text">
+            </div>
+            <div>
+                <label for="password">비밀번호</label>
+                <input id="password" type="password">
+            </div>
+            <div>
+                <input id="save" type="checkbox">
+                <label for="save" type="save">아이디 저장</label>
+            </div>
+                <button type="submit">로그인</button>      
+        </div>
+    </body>
+</html>
