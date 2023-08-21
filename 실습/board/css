@@ -1,0 +1,191 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/* 초기화 reset */
+body,
+h1,
+h2,
+h3,
+p,
+ul, ol, li,
+fieldset,
+legend,
+button
+{
+    margin: 0;
+    padding: 0;
+}
+button:enabled{
+    cursor: pointer;
+}
+
+ul, ol, li{
+    list-style: none;
+}
+
+body {
+    /* font-family: 'Nanum Myeongjo', serif; */
+    font-family:  'Pretendard-Regular', sans-serif;
+}
+
+
+.main-title{
+    font-size: 24px;
+}
+
+/* main */
+.main-title,
+.main-description{
+    text-align: center;
+    
+}
+ul{
+    list-style: none;
+}
+
+/* login page */
+.login {
+    width: 400px;
+    margin: auto;
+}
+
+
+.main-description{
+    color: #767676;
+    margin: 10px 0 32px;
+}
+.main-form{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+}
+
+.flex-input {
+    display: flex;
+    align-items: center;
+}
+
+.flex-input label{
+    width: 80px;
+    font-weight: bold;
+}
+
+.flex-input input{
+    height: 28px;
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.login-btn{
+    background-color: royalblue;
+    border: 0;
+    border-radius: 4px;
+    height: 36px;
+    color:white;
+    font-weight: bold;
+
+    transition: background-color 2s;
+}
+
+.login-btn:hover{
+    background-color: green;
+}
+
+.login-btn:disabled{
+    background-color: #ccc;
+}
+
+
+/* field */
+
+.field{
+    border:0;
+}
+
+.field legend{
+    float: left;
+    width: 80px;
+}
+/* div, p태그로 html 변경 */
+.field-flex{
+    display: flex;
+}
+.field-flex p{
+    width: 80px;
+    flex-shrink: 0;
+}
+
+
+.field ul {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.field label{
+    cursor: pointer;
+}
+
+
+
+/* view  */
+
+.view{
+    width: 1000px;
+    margin: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  
+  .view-header{
+    background-color: #eee;
+    border-top:2px solid black;
+    border-bottom: 1px solid #ddd;
+    padding:20px;
+  }
+  .view-info{
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  .view-info p:not(:first-child)::before{
+    content:'|';
+    color:#aaa;
+    margin: 0 20px;
+  }
+  
+  .view-contents{
+    padding:20px;
+  }
+  
+  .view-contents ol,
+  .view-contents ul{
+    list-style-position: inside;
+  }
+  
+  .view h2,
+  .view-header h3, 
+  .view-contents h4, 
+  .view-contents strong{
+    font-family: 'Pretendard-Bold';
+  }
+  
+  .view-contents h4{
+    margin:30px 0 8px;
+  }
+  .view-contents ol{
+    margin-bottom: 20px;
+  }
+
