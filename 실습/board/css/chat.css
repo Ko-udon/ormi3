@@ -1,0 +1,90 @@
+.chat{
+    width: 1000px;
+    margin: auto;
+}
+
+.chat-container{
+    background-color: #eee;
+
+}
+
+.chat-container h3{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.chat-content{
+    background-color: white;
+    border-radius: 0 40px 40px 40px;
+    padding: 8px 20px;
+
+    /* 가지고 있는 크기만큼 */
+    width: fit-content; 
+
+    overflow: auto;
+}
+.ai-chat .chat-wrap,
+.user-chat{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap:6px;
+}
+
+.ai-chat {
+    display: flex;
+    align-items: end;
+    gap:6px;
+}
+
+
+.ai-chat img{
+    width: 60px;
+    float: left;
+}
+
+.ai-chat .chat-content:first-child{
+    margin-top: 30px;
+}
+
+
+.user-chat .chat-content:first-child{
+    background-color: rgb(177, 226, 245);
+    border-radius: 20px 20px 0 20px;
+}
+
+/* form */
+.chat-form{
+    background-color: white;
+    display: flex;
+    padding: 10px;
+    border-radius: 16px;
+
+}
+
+.chat-form textarea{
+    border:0;
+    resize: none;
+    flex-grow: 1;
+    height: 80px;
+}
+
+.chat-form button {
+    background-color: royalblue;
+    border:0;
+    color: white;
+    width: 80px;
+    height: 32px;
+    border-radius: 10px;
+
+}
+
+.chat-screen{
+    height:600px;
+    overflow-y: auto;
+  
+    mask-image: linear-gradient(0deg, transparent 0%, black 10%);
+      -webkit-mask-image: linear-gradient(0deg, transparent 0%, black 10%);
+  
+  }
