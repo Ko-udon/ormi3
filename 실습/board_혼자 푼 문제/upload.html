@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글쓰기</title>
+  <link rel="stylesheet" href="./css/common.css">
+</head>
+
+<body>
+    <main class="list">
+        <h2>글쓰기</h2>
+        <br>
+        <p class="main-des">내용을 입력해 주세요</p>
+        <table class="write-table">
+            <thead>
+            <tr class="write-board-title">
+                <th class="category-box">카테고리</th>
+                <th class="title-box">제목</th>
+                <th class="detail-box">내용</th>
+                <th class="file-box">파일첨부</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr class="write-board-write">
+                    <th>
+                        <select class="category-write" id="category" name="category">
+                            <option value="normal">일반</option>
+                            <option value="announce">공지</option>
+                        </select>
+                    </th>
+                    <th>
+                        <input class="title-write" id="title" type="text">
+                    </th>
+                    <th>
+                        <input class="detail-write" id="detail" type="text">
+                    </th>
+                    <th>
+                        <input class="file-write"  id="file" type="file">
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="other-opt">
+            <button>작성</button>
+            <button>초기화</button>
+            <button>목록</button>
+        </div>
+
+
+    </main>
+    <footer class="layout-footer">
+        Copyright 2023. CHILLI All rights reserved.
+    </footer>
+      
+</body>
+
+</html>

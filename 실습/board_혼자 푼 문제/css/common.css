@@ -1,0 +1,466 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/* 초기화 reset */
+body,
+h1,
+h2,
+h3,
+p,
+ul, ol, li,
+fieldset,
+legend,
+button
+{
+    margin: 0;
+    padding: 0;
+}
+button:enabled{
+    cursor: pointer;
+}
+
+ul, ol, li{
+    list-style: none;
+}
+
+a{
+    
+}
+
+body {
+    /* font-family: 'Nanum Myeongjo', serif; */
+    font-family:  'Pretendard-Regular', sans-serif;
+}
+
+/* form 관련 */
+textarea,
+select,
+input[type="text"],
+input[type="password"],
+input[type="email"]{
+    height:28px;
+    boarder:1px solid var(--graycolor);
+    border-radius:4px;
+    padding:0 8px;
+    box-sizing: border-box;
+}
+
+
+.main-title{
+    font-size: 24px;
+}
+
+/* main */
+.main-title,
+.main-description{
+    text-align: center;
+}
+ul{
+    list-style: none;
+}
+
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+    border:1px solid #ccc;
+    background-color: #eee;
+    font:inherit;
+    color:inherit;
+    text-decoration: none;
+    border-radius: 4px;
+
+    width: 80px;
+    height: 40px;
+}
+a.btn{
+    
+}
+
+
+
+/* login page */
+.login {
+    width: 400px;
+    margin: auto;
+}
+
+
+.main-description{
+    color: #767676;
+    margin: 10px 0 32px;
+}
+
+
+
+.main-form{
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+}
+
+.flex-input {
+    display: flex;
+    align-items: center;
+}
+
+.flex-input label{
+    width: 80px;
+    font-weight: bold;
+}
+
+.flex-input input{
+    height: 28px;
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.login-btn{
+    background-color: royalblue;
+    border: 0;
+    border-radius: 4px;
+    height: 36px;
+    color:white;
+    font-weight: bold;
+
+    transition: background-color 2s;
+}
+
+.login-btn:hover{
+    background-color: green;
+}
+
+.login-btn:disabled{
+    background-color: #ccc;
+}
+
+
+/* field */
+
+.field{
+    border:0;
+}
+
+.field legend{
+    float: left;
+    width: 80px;
+}
+/* div, p태그로 html 변경 */
+.field-flex{
+    display: flex;
+}
+.field-flex p{
+    width: 80px;
+    flex-shrink: 0;
+}
+
+
+.field ul {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.field label{
+    cursor: pointer;
+}
+
+
+
+/* view  */
+
+.view{
+    width: 1000px;
+    margin: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  
+.view-header{
+    background-color: #eee;
+    border-top:2px solid black;
+    border-bottom: 1px solid #ddd;
+    padding:20px;
+}
+.view-info{
+    display: flex;
+    margin-top: 10px;
+}
+
+.view-info p:not(:first-child)::before{
+    content:'|';
+    color:#aaa;
+    margin: 0 20px;
+}
+
+.view-contents{
+    padding:20px;
+}
+
+.view-contents ol,
+.view-contents ul{
+    list-style-position: inside;
+}
+
+.view h2,
+.view-header h3, 
+.view-contents h4, 
+.view-contents strong{
+    font-family: 'Pretendard-Bold';
+}
+
+.view-contents h4{
+    margin:30px 0 8px;
+}
+.view-contents ol{
+    margin-bottom: 20px;
+}
+
+/* list */
+.list{
+    width: 1000px;
+    margin: auto;
+}
+
+.list table{
+    /* 테이블의 중첩된 선을 하나로 합쳐줌 */
+    border-collapse: collapse;
+    width: 100%;
+    border-top: 2px solid black;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.list table thead{
+    background-color: #eee;
+}
+
+.list table td{
+    border-top:1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.list table th,
+.list table td{
+    padding: 8px;
+}
+
+.list table a{
+    text-decoration: none;
+    font-family: 'Pretendard-Bold';
+    font-weight: bold;
+    color: inherit;
+}
+
+.list-title{
+    text-align: left;
+}
+
+
+/* 글쓰기 */
+.main-des{
+    color: #767676;
+}
+
+.write-board-title{
+    display: flex;
+    flex-direction: column;
+}
+
+.write-board-write{
+    display: flex;
+    flex-direction: column;
+}
+
+.write-table{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category-box{
+    width: 100px;
+    height: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.title-box{
+    width: 100px;
+    height: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+.detail-box{
+    width: 100px;
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.file-box{
+    width: 100px;
+    height: 20px;
+    border-bottom: 1px solid lightgray;
+}
+
+
+.category-write{
+    width: 150px;
+    display: flex;
+}
+
+.title-write{
+    width: 850px;
+    display: flex;
+}
+
+.detail-write{
+    width: 850px;
+    height: 800px;
+    display: flex;
+}
+
+.file-write{
+    display: flex;
+}
+
+
+
+
+
+
+.other-opt{
+    display: flex;
+    font-weight: bold;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+
+button{
+    border: 1px solid #ddd;
+    margin: 0 3px 0 3px;
+}
+
+/* 강사님 */
+ /* write */
+main{
+    width: 1000px;
+    margin: auto;
+  }
+  
+  .board-table{
+    border-collapse: collapse;
+    width: 100%;
+    border-top:2px solid black;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .board-table th{
+    background-color: #eee;
+  }
+  
+  .board-table th,
+  .board-table td{
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+  }
+  
+  .board-table th{
+    font-family: 'Pretendard-Bold';
+    padding:8px;
+  }
+  .board-table td{
+    padding:16px 8px;
+  }
+  
+  .board-table a{
+    text-decoration: none;
+    font-family: 'Pretendard-Bold';
+    font-weight: bold;
+    color:inherit;
+  }
+  
+  .tal{
+    text-align: left;
+  }
+
+
+
+.write select{
+
+}
+
+.write input[type="text"],
+.write textarea{
+    width:100%;
+}
+
+.write textarea{
+    height:200px;
+    resize: none;
+}
+
+input[type="file"]{
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+
+
+/* layout */
+.layout-header{
+    height: 80px;
+    padding: 0 20px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.layout-header div{
+    display: flex;
+    gap:40px;
+}
+
+.layout-header div *{
+    text-decoration: none;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+}
+
+.layout-footer{
+    text-align: center;
+    background-color: #eee;
+    padding: 30px 0;
+
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main{
+    flex-grow: 1;
+}
