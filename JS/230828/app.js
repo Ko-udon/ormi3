@@ -1,3 +1,4 @@
+// 아래 코드에 관한 모든 권한은 위니브가 가지고 있습니다.
 console.log("js가 연결되었습니다");
 
 const data = {
@@ -18,7 +19,7 @@ const data = {
   "modDate": "2022-02-28"
 }
 
-const BASE_URL = "http://test.api.weniv.co.kr/"
+const BASE_URL = "보안상 삭제!"
 const mainContainer = document.getElementById("main");
 
 //상품 카드 
