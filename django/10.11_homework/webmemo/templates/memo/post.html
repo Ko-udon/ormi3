@@ -1,0 +1,8 @@
+<h1>메모 내용</h1>
+<p>{{db.title}}</p>
+<p>{{db.contents}}</p>
+<!-- <p>{{db.main_image}}</p> -->
+{% if db.main_image %}
+<img src="{{ db.main_image.url }}" alt="">
+{% endif %}
+<a href="{% url 'memo' %}">뒤로가기</a>

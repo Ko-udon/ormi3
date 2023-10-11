@@ -1,0 +1,16 @@
+<h1>메모 목록</h1>
+<form action="" method="get">
+  <input name = 'q' type="search">
+  <button type="submit">검색</button> 
+</form>
+<ul>
+  {% for post_detail in db %}
+  <li>
+    <a href="{% url 'post' post_detail.id %}">
+      {{post_detail.title}}-({{post_detail.created_at}})</a>
+    <p>{{post_detail.contents}}</p><a href="{% url 'delete' post_detail.id %}">삭제</a>
+  </li>
+  
+  <br>
+  {% endfor %}
+</ul>
