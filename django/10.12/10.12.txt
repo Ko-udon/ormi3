@@ -1,0 +1,244 @@
+```
+mkdir mysite
+cd mysite
+python -m venv venv
+
+# 가상환경속으로 들어가기
+.\venv\Scripts\activate # window
+.\venv\Script\activate.bat # window
+source ./venv/bin/activate # mac, linux
+
+# window에서 오류가 뜰 경우
++ CategoryInfo          : 보안 오류: (:) [], PSSecurityException
++ FullyQualifiedErrorId : UnauthorizedAccess
+# 이걸 입력해주세요.
+Set-ExecutionPolicy Unrestricted
+
+pip install django
+django-admin startproject tutorialdjango .
+python manage.py migrate
+python manage.py runserver
+
+# settings.py에서 접속할 수 있는 사람 설정
+ALLOWED_HOSTS = ['*'] # 28번째 줄에 접속할 수 있는 사람을 모든 사람으로 변경
+
+python manage.py startapp main
+python manage.py startapp blog
+
+# settings.py 에서 33번째 라인 수정
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'main',
+    'blog',
+]
+
+
+# urls 기획
+1. 다음 url이 실제 작동하도록 해주세요.
+1.1 'blog/'                     : 블로그 글 목록
+1.2 'blog/<int:pk>/'            : 블로그 글 읽기
+1.3 'blog/create/'              : 블로그 글 작성
+1.4 'blog/update/<int:pk>/'     : 블로그 글 업데이트
+1.5 'blog/delete/<int:pk>/'     : 블로그 글 삭제
+
+
+###################################
+앱이름: blog                views 함수이름   html 파일이름  비고
+'blog/'                     blog            blog.html    
+'blog/<int:pk>'             post            post.html
+'blog/create/'              create          create.html
+'blog/update/<int:pk>/'     update          update.html
+'blog/delete/<int:pk>/'     delete          delete.html
+
+
+###################################
+blog > models.py
+# db 생성
+
+from django.db import models
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    contents = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True) # 처음 생성될 때만
+    updated_at = models.DateTimeField(auto_now=True) # 수정될 때마다
+
+    def __str__(self):
+        time = self.created_at.strftime('%Y-%m-%d %H:%M')
+        return f'제목: {self.title}, 시간: {time}'
+
+###################################
+# db적용
+pip install Pillow
+
+python manage.py makemigrations
+python manage.py migrate
+
+###################################
+# db 계정 설정
+python manage.py createsuperuser
+
+ko
+ehddn2202@gmail.com
+ko12345@
+
+###################################
+# blog > admin.py
+
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)
+
+##################################
+# tutorialdjango > urls.py
+from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('blog/', include('blog.urls')),
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+> settings.py 맨 밑에 추가
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+
+
+#################################
+# templates > blog > post.html
+
+<h1>게시판</h1>
+<p>{{db.title}}</p>
+<p>{{db.contents}}</p>
+<p>{{db.updated_at}}</p>
+<a href="{% url 'blog' %}">뒤로가기</a>
+
+
+##################################
+# templates > blog > blog.html
+
+blog > blog.html
+<h1>게시판</h1>
+<form action="" method="get">
+    <input name = 'q' type="search">
+    <button type="submit">검색</button> 
+</form>
+<ul>
+    {% for post_detail in db %}
+    <li>
+        <a href="{% url 'post' post_detail.id %}">{{ post_detail.title }}</a>
+        <p>{{post_detail.contents}}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+####################################
+templates > blog > delete.html
+<h1>블로그 글 삭제</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <p>블로그 글을 삭제하시겠습니까?</p>
+    <input type="submit" value="네!" class="btn btn-primary">
+</form>
+
+
+####################################
+
+blog > forms.py
+
+from django import forms
+from .models import Post
+
+class PostForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    fields = ['title','contents',]
+
+
+########################################
+create.html
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit">
+</form>
+
+
+####################################
+blog > views.py
+
+from django.shortcuts import render, redirect,get_object_or_404
+from .models import Post
+from django.db.models import Q
+from .forms import PostForm
+
+def blog(request):
+    if request.GET.get('q'):
+        q = request.GET.get('q')
+        db = Post.objects.filter(Q(title__icontains=q) | Q(contents__icontains=q)).distinct()
+    else:
+        db = Post.objects.all()
+    context = {
+        'db': db,
+    }
+    return render(request, 'blog/blog.html', context)
+
+def post(request, pk):
+    db = Post.objects.get(pk=pk)
+    context = {
+        'db': db,
+    }
+    return render(request, 'blog/post.html', context)
+
+def create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES) # 수정
+        if form.is_valid():
+            post = form.save()
+            return redirect('post', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'blog/create.html', {'form': form})
+
+def update(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    print(post)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            return redirect('post', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/create.html', {'form': form})
+
+def delete(request):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('blog')
+    return render(request, 'blog/delete.html', {'form': post})
+
+
+########################################
+blog > urls.py
+
+
+
+
+
