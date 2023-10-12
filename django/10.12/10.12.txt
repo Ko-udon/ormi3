@@ -238,7 +238,162 @@ def delete(request):
 ########################################
 blog > urls.py
 
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.blog, name='blog'),
+    path('<int:pk>/', views.post, name='post'),
+    path('create/', views.create, name='create'),
+    path('update/<int:pk>/', views.update, name='update'),
+    path('delete/<int:pk>/', views.delete, name='delete'),
+]
 
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#accounts 만들기
+
+tutorialdjango > urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('accounts', include('accounts.urls')),
+]
+
+
+
+accounts > urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+    path('profile/', views.profile, name='profile'),
+    path('logincheck/', views.logincheck, name = 'logincheck'),
+    path('loginfbv/', views.loginfbv, name = 'loginfbv'),
+]
+
+##########################################
+
+accounts > views.py
+
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render
+from django.views.generic import CreateView
+from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+
+# def signup(request):
+#     pass
+
+signup = CreateView.as_view(
+    form_class = UserCreationForm,
+    template_name = 'accounts/form.html',
+    success_url = settings.LOGIN_URL,
+)
+
+# def login(request):
+#     pass
+
+login = LoginView.as_view(
+    template_name = 'accounts/form.html',
+)
+
+# def logout(request):
+#     pass
+
+logout = LogoutView.as_view(
+    next_page = settings.LOGOUT_URL,
+)
+
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html')
+
+
+
+def logincheck(request):
+    print(request.user.is_authenticated)
+    print(request.user)
+    return render(request, 'accounts/logincheck.html')
+
+def loginfbv(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponse("login 성공")
+        else:
+            return HttpResponse("login 실패")
+    return render(request, 'accounts/loginfbv.html')
+
+
+
+
+##########################################
+
+templates > accounts > form.html
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit">
+</form>
+
+templates > accounts > profile.html 
+<h1>welcome</h1>
+<p>{{ user }}의 프로필 페이지</p>
+
+
+
+##################################
+# settings.py 맨 마지막
+
+LOGIN_URL = '/accounts/hellologin/'
+LOGOUT_URL = '/accounts/hellologout/'
+
+##################################
+
+templates > accounts > logincheck.html
+
+<p>django.contrib.auth.models.User</p>
+<p>{{user}}</p>
+<p>{{user.username}}</p>
+<p>{{user.email}}</p>
+<p>{{user.first_name}}</p>
+<p>{{user.last_name}}</p>
+<p>{{user.is_staff}}</p>
+<p>{{user.is_active}}</p>
+<p>{{user.is_superuser}}</p>
+<p>{{user.last_login}}</p>
+<p>{{user.date_joined}}</p>
+
+#################################
+
+function 기반으로 만들기
+
+loginfbv.html
+
+<form method="post">
+    {% csrf_token %}
+    <label for="username">아이디</label>
+    <input type="text" name="username">
+    <label for="password">비밀번호</label>
+    <input type="password" name="password">
+    <button type="submit">로그인</button>
+</form>
 
 
