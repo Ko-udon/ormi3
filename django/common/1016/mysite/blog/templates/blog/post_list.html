@@ -1,0 +1,12 @@
+{% comment %} 파일 이름 양식이 정해져 있다! 주의할 것 {% endcomment %}
+
+<h2>Post List</h2>
+<form action="" method = 'get'>
+  <input name = 'q' type="search">
+  <button type = 'submit'>검색</button>
+</form>
+<ul>
+    {% for post in object_list %}
+    <li><a href="{% url 'postdetail' post.pk %}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
