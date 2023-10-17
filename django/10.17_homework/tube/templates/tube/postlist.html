@@ -1,0 +1,7 @@
+{% for i in posts %}
+    {% comment %} <h1>{{ i.title }}</h1> {% endcomment %}
+    <a href="/tube/{{ i.pk }}">{{ i.title }}</a>
+    <p>{{ i.content }}</p>
+    <p>{{ i.author }}</p>
+    <hr>
+{% endfor %}

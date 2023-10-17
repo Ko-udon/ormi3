@@ -167,7 +167,7 @@ def postdetail(request, pk):
     return render(request, 'blog/postdetail.html', {'post':post, 'form':form})
 
 def posttag(request, tag):
-    posts = Post.objects.filter(tags_name_iexact = tag)
+    posts = Post.objects.filter(tags__name__iexact = tag)
     return render(request, 'blog/postlist.html', {'posts':posts})
 
 
