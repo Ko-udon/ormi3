@@ -15,3 +15,232 @@ youtube를 클론하는 프로젝트를 하고 있습니다. 참고로 영상은
 /accounts/logout/           # 로그인한 사용자만 보기 가능
 /accounts/profile/          # 로그인한 사용자만 보기 가능
 
+
+####################################
+
+accounts > urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
+    path('profile/', views.profile, name='profile'),
+    path('logincheck/', views.logincheck, name='logincheck'),
+]
+
+
+accounts > views.py
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render
+from django.views.generic import CreateView
+from django.http import HttpResponse
+
+# def signup(request):
+#     pass
+
+signup = CreateView.as_view(
+    form_class = UserCreationForm,
+    template_name = 'accounts/form.html',
+    success_url = settings.LOGIN_URL,
+)
+
+
+login = LoginView.as_view(
+    template_name = 'accounts/form.html',
+    # next_page = settings.LOGIN_URL,
+)
+
+
+logout = LogoutView.as_view(
+    next_page = settings.LOGOUT_URL,
+)
+
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html')
+
+def logincheck(request):
+    print(request.user.is_authenticated)
+    print(request.user)
+    return render(request, 'accounts/logincheck.html')
+
+
+
+accounts > form.html
+
+<form action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <table>
+      {{ form.as_table }}
+  </table>
+  <input type="submit">
+</form>
+
+
+accounts > profile.html
+<h1>wellcome</h1>
+<p>{{ user }} 프로필 페이지입니다.</p>
+
+
+########################################
+
+
+tube > admin.py
+
+from django.contrib import admin
+from .models import Post, Comment,Tag
+
+admin.site.register(Post)
+admin.site.register(Comment)
+admin.site.register(Tag)
+
+
+tube > forms.py
+
+from django import forms
+from django.contrib.auth.models import User
+from .models import Post
+
+class CommentForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea)
+
+class PostForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    fields = ['title',
+              'content',
+              'file_upload',
+              'author',
+              'tags']
+
+tube > models.py
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    file_upload = models.FileField(
+        upload_to='blog/files/%Y/%m/%d/', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE
+    )
+    # N:M 관계를 만들어줍니다. 어디서든 정의해도 상관 없습니다.
+    tags = models.ManyToManyField('Tag', blank=True)
+
+    def __str__(self):
+        return self.title
+    
+class Comment(models.Model):
+    # related_name은 Post에서 Comment를 부를 때 사용할 이름
+    # ForeignKey는 1:N 관계를 만들어줍니다. 단, N에서 정의합니다.
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='comments'
+    )
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.message
+    
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.name
+    
+
+tube > urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.postlist, name='postlist'),
+    path('<int:pk>/', views.postdetail, name='postdetail'),
+    path('tag/<str:tag>/', views.posttag, name='posttage'),
+    path('create/', views.create, name='create'),
+    path('update/<int:pk>/', views.update, name='update'),
+    path('delete/<int:pk>/', views.delete, name='delete'),
+]
+
+
+tube > views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Post, Comment
+from .forms import CommentForm
+from .forms import PostForm
+from django.contrib.auth.decorators import login_required
+
+def postlist(request):
+    posts = Post.objects.all()
+    return render(request, 'tube/postlist.html', {'posts':posts})
+
+def postdetail(request, pk):
+    post = Post.objects.get(pk=pk)
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            c = Comment.objects.create(
+                post = post,
+                message = form.cleaned_data['message'],
+                author = request.user
+            )
+            c.save()
+
+    return render(request, 'tube/postdetail.html', {'post':post, 'form':form})
+
+def posttag(request, tag):
+    posts = Post.objects.filter(tags__name__iexact = tag)
+    return render(request,'tube/postlist.html', {'posts':posts})
+
+@login_required
+def create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save()
+            return redirect('postdetail', pk = post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'tube/create.html', {'form':form})
+
+@login_required
+def update(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save()
+            return redirect('postlist')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'tube/create.html', {'form': form})
+
+@login_required
+def delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('postlist')
+    return render(request, 'tube/delete.html', {'post': post})
+
+
+
+
+
