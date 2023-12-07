@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-tl+&fopl=em9+*z37gdpkb&$61n9@%t#)5v#&xp_$vz3hvmui3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -28,6 +28,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_spectacular',
+    'users',
+    'posts',
+
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -38,7 +42,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',  # 추가
+    'django.middleware.common.CommonMiddleware',  # 이 미들웨어 바로 앞에 추가
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # rest framework 설정
 REST_FRAMEWORK = {
@@ -136,3 +145,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # 액세스 토큰 만료 시간을 60분으로 설정
     # ... 기타 SIMPLE_JWT 설정 ...
 }
+
+# 내가 만든 users모델을 User로 사용하겠다
+AUTH_USER_MODEL = 'users.User'
